@@ -19,7 +19,7 @@ import java.util.Properties;
  */
 public class EmailUtils {
     private static final String SENDUSER = "99246255@qq.com";
-    private static final String AUTHCODE = "gnifuxswyfglcacd";// qq邮箱授权码，不知道的看http://blog.csdn.net/u013871100/article/details/52649767
+    private static final String AUTHCODE = "xx";// qq邮箱授权码，不知道的看http://blog.csdn.net/u013871100/article/details/52649767
 
     /**
      * 发送纯文本邮件

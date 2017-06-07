@@ -4,8 +4,6 @@ import com.enumaelish.utils.GetCityUtl;
 import org.apache.commons.lang3.StringUtils;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
-import us.codecraft.webmagic.Spider;
-import us.codecraft.webmagic.monitor.SpiderMonitor;
 import us.codecraft.webmagic.processor.PageProcessor;
 
 import java.util.ArrayList;
@@ -20,8 +18,8 @@ public class LianjiaErshoufangHousesProcessor implements PageProcessor {
     public static final String REGEX_ERSHOUFANGSTART = "http[^\\s]*.lianjia.com/ershoufang";
     public static final String REGEX_ERSHOUFANG = "http[^\\s]*.lianjia.com/ershoufang/[a-zA-Z0-9]*/";
     private Site site = Site.me()
-            .setRetryTimes(3)
-            .setSleepTime(3 * 1000)
+            .setRetryTimes(1)
+            .setSleepTime(30 * 1000)
             .setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_2) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.65 Safari/537.31");
 
     private static ConcurrentHashMap<String, Long> map = new ConcurrentHashMap<String, Long>();
@@ -104,15 +102,4 @@ public class LianjiaErshoufangHousesProcessor implements PageProcessor {
 
     }
 
-    public static void main(String[] args) throws  Exception{
-        //chromedriver.exe需与浏览器版本对应
-        String chromeDriverPath = LianjiaErshoufangHousesProcessor.class.getClassLoader().getResource("chromedriver.exe").getFile();
-        Spider jdSpider = Spider.create(new LianjiaErshoufangHousesProcessor())
-                .addUrl("https://hz.lianjia.com/ershoufang")
-//                .setDownloader(new SeleniumDownloader(chromeDriverPath))
-                .thread(1);
-        // 注册爬虫监控
-        SpiderMonitor.instance().register(jdSpider);
-        jdSpider.run();
-    }
 }
