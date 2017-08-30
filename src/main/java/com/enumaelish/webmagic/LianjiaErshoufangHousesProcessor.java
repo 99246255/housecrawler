@@ -11,14 +11,15 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 只爬取二手房
+ * 只爬取链家二手房
  */
 public class LianjiaErshoufangHousesProcessor implements PageProcessor {
 
     public static final String REGEX_ERSHOUFANGSTART = "http[^\\s]*.lianjia.com/ershoufang";
     public static final String REGEX_ERSHOUFANG = "http[^\\s]*.lianjia.com/ershoufang/[a-zA-Z0-9]*/";
     private Site site = Site.me()
-            .setRetryTimes(1)
+            .setRetryTimes(3)
+            .setTimeOut(5000)
             .setSleepTime(30 * 1000)
             .setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_2) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.65 Safari/537.31");
 
