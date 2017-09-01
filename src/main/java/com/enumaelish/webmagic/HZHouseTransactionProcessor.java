@@ -25,13 +25,12 @@ public class HZHouseTransactionProcessor implements PageProcessor {
 
 
     public HZHouseTransactionProcessor() {
-        this.pageSize.set(3075);
+        this.pageSize.set(1);
     }
 
     public static final  String URL = "http://jjhygl.hzfc.gov.cn/webty/WebGpxxMapAction_getGpxxSelectList.jspx";
     @Override
     public void process(Page page) {
-        System.out.println(pageSize.get());
         String rawText = page.getRawText();
         Gson gs = new Gson();
         JsonObject jsonData = gs.fromJson(rawText, JsonObject.class);

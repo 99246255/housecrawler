@@ -21,7 +21,7 @@ public class StartCrawlerJob implements Job {
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		logger.info("开始爬取信息");
-        Spider.create(new HZHouseTransactionProcessor()).addPipeline(hzHouseTransactionPipeline).addRequest(HZHouseTransactionProcessor.getRequest(700)).thread(3).run();
+        Spider.create(new HZHouseTransactionProcessor()).addPipeline(hzHouseTransactionPipeline).addRequest(HZHouseTransactionProcessor.getRequest(1)).thread(3).run();
 		logger.info("爬取信息结束");
 	}
 
