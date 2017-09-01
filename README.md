@@ -1,28 +1,13 @@
-SpringBoot + webmagic
-学习webmagic写的demo
-自用的爬虫，过段时间打算买房，新房位置和价格比较难中和，所以考虑二手房，先抓点数据看看行情
-可选用谷歌浏览器做Downloader。chromedrive是2.25版本的，支持的Chrome版本v53-55，如果版本不一致自行替换chromedrive或修改chrome版本
-
-目前的只有二手房的爬虫，比如上海二手房用的http ，北京杭州https， 二手房页面信息不一样
-每个城市的html可能不一样所以可能只写了一部分的二手房Processor，有的城市可能需要额外处理
-LianjiaConfig 中修改爬取的初始url,格式https://XX城市.lianjia.com/ershoufang，如https://hz.lianjia.com/ershoufang， http://sh.lianjia.com/ershoufang, https://bj.lianjia.com/ershoufang
-LianjiaGetHousesProcessor 中的site.setSleepTime(30 * 1000) 尽量长一点，否则会被链家给封IP的，具体设置多少合适我也不清楚，反正已被封过，一个城市最多也就几万条，设置3秒被封过，被封了换个城市爬取即可
-
-搜索页面，很简陋，条件也只有价格、城市过滤
-http://localhost:8111/index
-
-接下来考虑爬取链接历史记录保存(考虑房价多版本记录)，以及爬取二手房成交
-
-建表
-CREATE TABLE `house` (
-  `id` varchar(255) NOT NULL,
-  `city` varchar(255) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `flood` varchar(255) DEFAULT NULL,
-  `house_info` varchar(255) DEFAULT NULL,
-  `total_price` double(100,6) DEFAULT NULL,
-  `unit_price` varchar(255) DEFAULT NULL,
-  `pic` varchar(255) DEFAULT NULL,
-  `position_info` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+# 简介 杭州二手房交易监管平台信息爬虫
+SpringBoot + webmagic + quartz
+最开始学习webmagic写的demo，后来改成自用信息来源获取
+自用的爬虫，打算买房，但是现在新房市场几乎都要全款所以考虑二手房，先观望吧，目前二手房单价也很高，也没有什么量
+最开始想抓取链家信息，结果有防IP设置，单位时间访问量超过次数会要求输入图片验证码，所以就先放弃了
+## 1 概述
+webmagic  有从链家以及杭州二手房交易监管平台抓取，两种是不同方式，链家的是从页面抓取信息，杭州二手房交易监管平台则是解析json
+quartz 做了个定时任务，每6小时抓取一次，可以获取新的挂牌信息以及更新仍然挂牌的信息，如果信息长时间未更新，很可能已经被交易了
+## 2 SpringBoot启动后界面主页
+http://localhost:8002/index
+## 3 下阶段功能
+有空可以弄个地图找房功能，以及房价趋势
+去链家，我爱我家抓取成交信息
