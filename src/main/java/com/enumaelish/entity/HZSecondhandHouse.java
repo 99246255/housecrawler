@@ -13,6 +13,7 @@ import java.util.List;
 @Table(name = "secondhandhouse")
 public class HZSecondhandHouse implements Serializable {
 
+    private long gpfyid; // 挂牌信息id
     @Id
     private String fwtybh;// 房源核验编码
     private String cqmc;// 地区
@@ -112,5 +113,13 @@ public class HZSecondhandHouse implements Serializable {
 
     public void setGpInfos(List<GPInfo> gpInfos) {
         this.gpInfos = gpInfos;
+    }
+
+    public long getGpfyid() {
+        return gpfyid;
+    }
+
+    public void setGpfyid(long gpfyid) {
+        this.gpfyid = gpfyid;
     }
 }

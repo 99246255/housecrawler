@@ -10,6 +10,7 @@ import java.util.Date;
  */
 public class HZSecondhandHouseDTO {
 
+    private long gpfyid; // 挂牌信息id
     private String fwtybh;// 房源核验编码
     private String cqmc;// 地区
     private long xqid;// 小区id
@@ -26,6 +27,14 @@ public class HZSecondhandHouseDTO {
 
     private long xzqh;//行政区号
     private String xzqhname;// 行政区号名称
+
+    public long getGpfyid() {
+        return gpfyid;
+    }
+
+    public void setGpfyid(long gpfyid) {
+        this.gpfyid = gpfyid;
+    }
 
     public String getFwtybh() {
         return fwtybh;
