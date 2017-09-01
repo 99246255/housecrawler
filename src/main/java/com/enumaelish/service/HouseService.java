@@ -1,6 +1,8 @@
 package com.enumaelish.service;
 
+import com.enumaelish.entity.GPInfo;
 import com.enumaelish.entity.House;
+import com.enumaelish.repository.GpInfoRepository;
 import com.enumaelish.repository.HouseRepository;
 import com.enumaelish.specification.SimpleSpecificationBuilder;
 import com.enumaelish.specification.SpecificationOperator;
@@ -17,7 +19,8 @@ public class HouseService {
 
     @Autowired
     HouseRepository houseRepository;
-
+    @Autowired
+    GpInfoRepository gpInfoRepository;
     public void save(List<House> houses){
         houseRepository.save(houses);
     }
@@ -31,4 +34,10 @@ public class HouseService {
         builder.add("totalPrice", SpecificationOperator.Operator.le.name(), max);
         return houseRepository.findAll(builder.generateSpecification(),pageable);
     }
+
+    public GPInfo insertGPInfo(GPInfo gpInfo){
+        return gpInfoRepository.save(gpInfo);
+    }
+
+
 }

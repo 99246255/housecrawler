@@ -1,6 +1,6 @@
 package com.enumaelish.webmagic;
 
-import com.enumaelish.utils.GetCityUtl;
+import com.enumaelish.utils.GetCityUtil;
 import org.apache.commons.lang3.StringUtils;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
@@ -32,7 +32,7 @@ public class LianjiaErshoufangHousesProcessor implements PageProcessor {
                 return;
             }
             List<String> allscript = page.getHtml().xpath("//head/script").all();
-            String city = GetCityUtl.getCityName(allscript);
+            String city = GetCityUtil.getCityName(allscript);
             if(StringUtils.isEmpty(city)){
                return;
             }

@@ -15,7 +15,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface HouseRepository extends CrudRepository<House, String> , JpaSpecificationExecutor<House> {
 
     Page<House> findAll(Specification<House> var1, Pageable pageable);

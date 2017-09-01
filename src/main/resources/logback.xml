@@ -36,23 +36,13 @@
 		</encoder>
 	</appender>
 	<!--=============================== 日志输出: 默认主业务日志 ====================================== -->
+
+	<!-- 生产环境下，将此级别配置为适合的级别，以免日志文件太多或影响程序性能 -->
 	<logger name="org.springframework">
-		<level value="WARN" />
+		<level value="INFO" />
 	</logger>
-	<logger name="org.apache.shiro">
-		<level value="WARN" />
-	</logger>
-	<logger name="freemarker">
-		<level value="WARN" />
-	</logger>
-	<logger name="org.hibernate">
-		<level value="WARN" />
-	</logger>
-	<logger name="org.hibernate.SQL">
-		<level value="DEBUG" />
-	</logger>
-	
-	<root level="DEBUG">
+
+	<root level="INFO">
 		<appender-ref ref="APP" />
 		<appender-ref ref="STDOUT" />
 	</root>

@@ -5,6 +5,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 
+/**
+ * 链家二手房信息
+ */
 @Entity
 @Table(name = "House")
 public class House implements Serializable {
