@@ -21,11 +21,11 @@ import java.util.List;
 @Repository
 public interface HZSecondhandHouseRepository extends CrudRepository<HZSecondhandHouse, String> , JpaSpecificationExecutor<HZSecondhandHouse> {
 
-    @Query("select h from HZSecondhandHouse h, GPInfo gpinfo where h.fwtybh = gpinfo.fwtybh and  h.xqmc like ?1 and gpinfo.price > ?2 and gpinfo.price < ?3")
-    List<HZSecondhandHouse> findByxqmc(String xqmc, double min, double max, Pageable pageable);
+    @Query("select h from HZSecondhandHouse h, GPInfo gpinfo where h.fwtybh = gpinfo.fwtybh and h.cqmc like ?1 and h.xqmc like ?2 and gpinfo.price > ?3 and gpinfo.price < ?4")
+    List<HZSecondhandHouse> findByxqmc(String cqmc, String xqmc, double min, double max, Pageable pageable);
 
-    @Query("select count(h) from HZSecondhandHouse h, GPInfo gpinfo where h.fwtybh = gpinfo.fwtybh and  h.xqmc like ?1 and gpinfo.price > ?2 and gpinfo.price < ?3")
-    Long countByxqmc(String xqmc, double min, double max);
+    @Query("select count(h) from HZSecondhandHouse h, GPInfo gpinfo where h.fwtybh = gpinfo.fwtybh and h.cqmc like ?1 and h.xqmc like ?2 and gpinfo.price > ?3 and gpinfo.price < ?4")
+    Long countByxqmc(String cqmc, String xqmc, double min, double max);
 
     List<HZSecondhandHouse> findAll();
 

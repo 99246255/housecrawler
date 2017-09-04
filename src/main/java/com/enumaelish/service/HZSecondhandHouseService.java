@@ -37,21 +37,23 @@ public class HZSecondhandHouseService {
         return hzSecondhandHouseRepository.findAll();
     }
 
-    public List<HZSecondhandHouse> query(String xqmc, double min, double max, PageRequest pageable){
-        if(StringUtils.isEmpty(xqmc) || StringUtils.isEmpty(xqmc.trim())){
-            xqmc = "%";
-        }else{
-            xqmc = "%" + xqmc.trim() + "%";
-        }
-        return hzSecondhandHouseRepository.findByxqmc(xqmc, min, max, pageable);
+    public List<HZSecondhandHouse> query(String cqmc, String xqmc, double min, double max, PageRequest pageable){
+        cqmc = getLikeQuery(cqmc);
+        xqmc = getLikeQuery(xqmc);
+        return hzSecondhandHouseRepository.findByxqmc(cqmc, xqmc, min, max, pageable);
     }
 
-    public long count(String xqmc, double min, double max){
-        if(StringUtils.isEmpty(xqmc) || StringUtils.isEmpty(xqmc.trim())){
-            xqmc = "%";
+    public String getLikeQuery(String s){
+        if(StringUtils.isEmpty(s) || StringUtils.isEmpty(s.trim())){
+            s = "%";
         }else{
-            xqmc = "%" + xqmc.trim() + "%";
+            s = "%" + s.trim() + "%";
         }
-        return hzSecondhandHouseRepository.countByxqmc(xqmc, min, max);
+        return s;
+    }
+    public long count(String cqmc, String xqmc, double min, double max){
+        cqmc = getLikeQuery(cqmc);
+        xqmc = getLikeQuery(xqmc);
+        return hzSecondhandHouseRepository.countByxqmc(cqmc, xqmc, min, max);
     }
 }

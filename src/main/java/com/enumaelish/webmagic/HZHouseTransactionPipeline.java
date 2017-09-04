@@ -55,7 +55,7 @@ public class HZHouseTransactionPipeline implements Pipeline {
                     if(hzSecondhandHouseDTO.getGisy() != hzSecondhandHouse.getGisy()){
                         hzSecondhandHouse.setGisy(hzSecondhandHouseDTO.getGisy());
                     }
-                    hzSecondhandHouse.setGpfyid(hzSecondhandHouse.getGpfyid());// 修改历史数据，之后可去掉
+                    hzSecondhandHouse.setGpfyid(hzSecondhandHouseDTO.getGpfyid());// 修改历史数据，之后可去掉
                 }else{
                     hzSecondhandHouse = new HZSecondhandHouse();
                     hzSecondhandHouse.setGisy(hzSecondhandHouseDTO.getGisy());
@@ -67,7 +67,7 @@ public class HZHouseTransactionPipeline implements Pipeline {
                     hzSecondhandHouse.setFczsh(hzSecondhandHouseDTO.getFczsh());
                     hzSecondhandHouse.setCqmc(hzSecondhandHouseDTO.getCqmc());
                     hzSecondhandHouse.setCreateTime(date);
-                    hzSecondhandHouse.setGpfyid(hzSecondhandHouse.getGpfyid());
+                    hzSecondhandHouse.setGpfyid(hzSecondhandHouseDTO.getGpfyid());
                 }
                 hzSecondhandHouse.setUpdateTime(date);
                 hzSecondhandHouse = hzSecondhandHouseService.save(hzSecondhandHouse);

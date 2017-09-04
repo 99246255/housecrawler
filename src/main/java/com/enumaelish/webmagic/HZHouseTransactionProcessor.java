@@ -20,7 +20,7 @@ public class HZHouseTransactionProcessor implements PageProcessor {
 
     private static final AtomicInteger pageSize = new AtomicInteger(1);
     private Site site = Site.me()
-            .setRetryTimes(10).setTimeOut(5000)
+            .setRetryTimes(5).setTimeOut(5000)
             .setSleepTime(1 * 1000);
 
 

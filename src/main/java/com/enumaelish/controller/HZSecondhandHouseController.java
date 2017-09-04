@@ -40,11 +40,12 @@ public class HZSecondhandHouseController {
             max = Double.valueOf(request.getParameter("max"));
         }catch (Exception e){
         }
+        String cqmc = request.getParameter("cqmc");
         // 若什么都不输入，则表示搜索全部商品
         try {
             PageRequest pageable = ControllerUtil.getPageRequest(request);
-            stringObjectHashMap.put("results", hzSecondhandHouseService.query(xqmc, min, max, pageable));
-            stringObjectHashMap.put("totalElements", hzSecondhandHouseService.count(xqmc, min, max));
+            stringObjectHashMap.put("results", hzSecondhandHouseService.query(cqmc, xqmc, min, max, pageable));
+            stringObjectHashMap.put("totalElements", hzSecondhandHouseService.count(cqmc, xqmc, min, max));
         } catch (Exception e) {
             e.printStackTrace();
         }

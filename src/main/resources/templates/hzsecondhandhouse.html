@@ -13,6 +13,7 @@
     <link href="/css/bootstrap-table.min.css" rel="stylesheet"/>
     <link href="/css/animate.css" rel="stylesheet"/>
     <link href="/css/style.css?v=4.1.0" rel="stylesheet"/>
+    <link href="/css/select2.min.css" rel="stylesheet"/>
 </head>
 <body class="gray-bg">
 <div class="wrapper wrapper-content  animated fadeInRight">
@@ -25,19 +26,27 @@
                 <div class="ibox-content">
                     <div class="search-div">
                         <div>
+                            <label>所属区域：</label>
+                            <select id="select" class="js-example-basic-single">
+                                <option value="">全部</option>
+                                <option value="上城">上城</option>
+                                <option value="下城">下城</option>
+                                <option value="拱墅">拱墅</option>
+                                <option value="江干">江干</option>
+                                <option value="滨江">滨江</option>
+                                <option value="西湖">西湖</option>
+                                <option value="萧山">萧山</option>
+                                <option value="富阳">富阳</option>
+                                <option value="杭州">未分类</option>
+                            </select>
                             <label>小区：</label>
                             <input size="16" type="text" id="xqmc"></input>
-                        </div>
-                        <div>
                             <label>总价(万)从：</label>
                             <input size="16" type="text" id="min" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"></input>
                             <label>到</label>
                             <input size="16" type="text" id="max" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"></input>
+                            <button class="btn-primary" type="button" onclick="refreshTable()" style="margin-left:1rem;">搜索</button>
                         </div>
-
-                        <span >
-							<button class="btn-primary" type="button" onclick="refreshTable()" style="margin-left:1rem;">搜索</button>
-						</span>
                     </div>
                     <div></div>
                     <div class="row row-lg">
@@ -59,8 +68,10 @@
 <script src="/js/bootstrap-table/bootstrap-table-mobile.min.js"></script>
 <script src="/js/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
 <script src="/js/dateformat.js"></script>
+<script src="/js/select2.min.js"></script>
 <script>
     $(document).ready(function () {
+        $(".js-example-basic-single").select2();
         //初始化表格,动态从服务器加载数据
         $("#table_list").bootstrapTable({
             //使用get请求到服务器获取数据
@@ -103,8 +114,15 @@
                     return index+1;
                 }
             },{
-                title: "房源核验编码",
+                title: "房源核验编码及链接",
                 field: "fwtybh",
+                formatter: function (value, row, index) {
+                    if(row.gpfyid ==0){
+                        return value;
+                    }else{
+                        return '<a target="_blank" href="http://jjhygl.hzfc.gov.cn/webty/WebFyAction_toGpxxInfo.jspx?gpfyid='+row.gpfyid +'" >'+value +'</a>';
+                    }
+                }
             },{
                 title: "地区",
                 field: "cqmc",
@@ -140,12 +158,13 @@
                     return getSmpFormatDateByLong(value,false);
                 },
             }]
-        });
+    });
     });
     function queryParams(pageReqeust) {
         pageReqeust.min = $("#min").val();
         pageReqeust.max = $("#max").val();
-        pageReqeust.xqmc = $("#xqmc") .val();
+        pageReqeust.xqmc = $("#xqmc").val();
+        pageReqeust.cqmc = $("#select").val();
         return pageReqeust;
     }
     function refreshTable(){
