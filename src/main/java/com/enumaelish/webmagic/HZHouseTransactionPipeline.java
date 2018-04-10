@@ -75,6 +75,7 @@ public class HZHouseTransactionPipeline implements Pipeline {
                 hzSecondhandHouse.setGpInfos(gpInfos);
                 map.put(hzSecondhandHouseDTO.getFwtybh(), hzSecondhandHouse);
             }
+            System.out.println(map.size());
         }
     }
 

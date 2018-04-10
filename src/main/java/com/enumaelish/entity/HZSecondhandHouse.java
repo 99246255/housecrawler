@@ -19,8 +19,8 @@ public class HZSecondhandHouse implements Serializable {
     private String cqmc;// 地区
     private long xqid;// 小区id
     private String xqmc;// 小区
-    private double gisx;// 经度
-    private double gisy;//纬度
+    private String gisx;// 经度
+    private String gisy;//纬度
     private double jzmj;// 面积
     private String fczsh;// 房产证
     private Date createTime;// 记录载入时间
@@ -59,19 +59,19 @@ public class HZSecondhandHouse implements Serializable {
         this.xqmc = xqmc;
     }
 
-    public double getGisx() {
+    public String getGisx() {
         return gisx;
     }
 
-    public void setGisx(double gisx) {
+    public void setGisx(String gisx) {
         this.gisx = gisx;
     }
 
-    public double getGisy() {
+    public String getGisy() {
         return gisy;
     }
 
-    public void setGisy(double gisy) {
+    public void setGisy(String gisy) {
         this.gisy = gisy;
     }
 

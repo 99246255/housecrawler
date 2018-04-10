@@ -18,17 +18,17 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class HZHouseTransactionProcessor implements PageProcessor {
 
-    private static final AtomicInteger pageSize = new AtomicInteger(1);
+    private static final AtomicInteger pageSize = new AtomicInteger(556);
     private Site site = Site.me()
             .setRetryTimes(5).setTimeOut(5000)
             .setSleepTime(1 * 1000);
 
 
     public HZHouseTransactionProcessor() {
-        this.pageSize.set(1);
+        this.pageSize.set(556);
     }
 
-    public static final  String URL = "http://jjhygl.hzfc.gov.cn/webty/WebGpxxMapAction_getGpxxSelectList.jspx";
+    public static final  String URL = "http://jjhygl.hzfc.gov.cn/webty/WebFyAction_getGpxxSelectList.jspx";
     @Override
     public void process(Page page) {
         String rawText = page.getRawText();
@@ -37,6 +37,7 @@ public class HZHouseTransactionProcessor implements PageProcessor {
         page.putField("house", jsonData.get("list").toString());
         if(jsonData.get("pageinfo").toString().contains("下一页")) {
             page.addTargetRequest(getRequest(pageSize.incrementAndGet()));
+            System.out.println(pageSize);
         }
     }
 
