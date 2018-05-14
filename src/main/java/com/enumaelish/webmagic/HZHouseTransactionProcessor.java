@@ -25,7 +25,7 @@ public class HZHouseTransactionProcessor implements PageProcessor {
 
 
     public HZHouseTransactionProcessor() {
-        this.pageSize.set(556);
+        this.pageSize.set(1);
     }
 
     public static final  String URL = "http://jjhygl.hzfc.gov.cn/webty/WebFyAction_getGpxxSelectList.jspx";

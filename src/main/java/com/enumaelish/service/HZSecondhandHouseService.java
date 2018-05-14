@@ -29,6 +29,14 @@ public class HZSecondhandHouseService {
         return hzSecondhandHouseRepository.save(house);
     }
 
+    public HZSecondhandHouse findById(String name){
+        HZSecondhandHouse house = hzSecondhandHouseRepository.findOne(name);
+        if(house != null){
+            house.setGpInfos(gpInfoRepository.findByFwtybh(name));
+        }
+        return house;
+    }
+
     public GPInfo save(GPInfo gpInfo){
         return gpInfoRepository.save(gpInfo);
     }

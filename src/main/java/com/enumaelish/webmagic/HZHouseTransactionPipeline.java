@@ -13,10 +13,7 @@ import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.pipeline.Pipeline;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -28,14 +25,14 @@ public class HZHouseTransactionPipeline implements Pipeline {
     /**
      * 所有杭州的二手房信息
      */
-    private static final ConcurrentHashMap<String, HZSecondhandHouse> map = new ConcurrentHashMap<>();
+    private static final Set<String> sets = ConcurrentHashMap.<String> newKeySet();;
     @Autowired
     HZSecondhandHouseService hzSecondhandHouseService;
     @PostConstruct
     public void init() {
         List<HZSecondhandHouse> list = hzSecondhandHouseService.findAll();
         for (HZSecondhandHouse hzSecondhandHouse : list){
-            map.put(hzSecondhandHouse.getFwtybh(), hzSecondhandHouse);
+            sets.add(hzSecondhandHouse.getFwtybh());
         }
     }
     @Override
@@ -47,8 +44,8 @@ public class HZHouseTransactionPipeline implements Pipeline {
             HZSecondhandHouse hzSecondhandHouse = null;
             for(HZSecondhandHouseDTO hzSecondhandHouseDTO : houses){
                 // 更新信息，每天爬取几次，如果长时间没有更新，可能表示已售
-                if(map.containsKey(hzSecondhandHouseDTO.getFwtybh())){
-                    hzSecondhandHouse = map.get(hzSecondhandHouseDTO.getFwtybh());
+                if(sets.contains(hzSecondhandHouseDTO.getFwtybh())){
+                    hzSecondhandHouse = hzSecondhandHouseService.findById(hzSecondhandHouseDTO.getFwtybh());
                     if(hzSecondhandHouseDTO.getGisx() != hzSecondhandHouse.getGisx()){
                         hzSecondhandHouse.setGisx(hzSecondhandHouseDTO.getGisx());
                     }
@@ -72,10 +69,9 @@ public class HZHouseTransactionPipeline implements Pipeline {
                 hzSecondhandHouse.setUpdateTime(date);
                 hzSecondhandHouse = hzSecondhandHouseService.save(hzSecondhandHouse);
                 List<GPInfo> gpInfos = getGpInfos(hzSecondhandHouseDTO, hzSecondhandHouse.getGpInfos());
-                hzSecondhandHouse.setGpInfos(gpInfos);
-                map.put(hzSecondhandHouseDTO.getFwtybh(), hzSecondhandHouse);
+                sets.add(hzSecondhandHouseDTO.getFwtybh());
             }
-            System.out.println(map.size());
+            System.out.println(sets.size());
         }
     }
 
