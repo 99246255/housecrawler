@@ -28,6 +28,7 @@ public class HZHouseTransactionPipeline implements Pipeline {
     private static final Set<String> sets = ConcurrentHashMap.<String> newKeySet();;
     @Autowired
     HZSecondhandHouseService hzSecondhandHouseService;
+
     @PostConstruct
     public void init() {
         List<HZSecondhandHouse> list = hzSecondhandHouseService.findAll();
@@ -43,33 +44,38 @@ public class HZHouseTransactionPipeline implements Pipeline {
             List<HZSecondhandHouseDTO> houses = new Gson().fromJson((String)items.get("house"), new TypeToken<List<HZSecondhandHouseDTO>>() {}.getType());
             HZSecondhandHouse hzSecondhandHouse = null;
             for(HZSecondhandHouseDTO hzSecondhandHouseDTO : houses){
-                // 更新信息，每天爬取几次，如果长时间没有更新，可能表示已售
-                if(sets.contains(hzSecondhandHouseDTO.getFwtybh())){
-                    hzSecondhandHouse = hzSecondhandHouseService.findById(hzSecondhandHouseDTO.getFwtybh());
-                    if(hzSecondhandHouseDTO.getGisx() != hzSecondhandHouse.getGisx()){
-                        hzSecondhandHouse.setGisx(hzSecondhandHouseDTO.getGisx());
-                    }
-                    if(hzSecondhandHouseDTO.getGisy() != hzSecondhandHouse.getGisy()){
+                try {
+                    // 更新信息，每天爬取几次，如果长时间没有更新，可能表示已售
+                    if(sets.contains(hzSecondhandHouseDTO.getFwtybh())){
+                        hzSecondhandHouse = hzSecondhandHouseService.findById(hzSecondhandHouseDTO.getFwtybh());
+                        if(hzSecondhandHouseDTO.getGisx() != hzSecondhandHouse.getGisx()){
+                            hzSecondhandHouse.setGisx(hzSecondhandHouseDTO.getGisx());
+                        }
+                        if(hzSecondhandHouseDTO.getGisy() != hzSecondhandHouse.getGisy()){
+                            hzSecondhandHouse.setGisy(hzSecondhandHouseDTO.getGisy());
+                        }
+                        hzSecondhandHouse.setGpfyid(hzSecondhandHouseDTO.getGpfyid());// 修改历史数据，之后可去掉
+                    }else{
+                        hzSecondhandHouse = new HZSecondhandHouse();
                         hzSecondhandHouse.setGisy(hzSecondhandHouseDTO.getGisy());
+                        hzSecondhandHouse.setGisx(hzSecondhandHouseDTO.getGisx());
+                        hzSecondhandHouse.setXqid(hzSecondhandHouseDTO.getXqid());
+                        hzSecondhandHouse.setXqmc(hzSecondhandHouseDTO.getXqmc());
+                        hzSecondhandHouse.setJzmj(hzSecondhandHouseDTO.getJzmj());
+                        hzSecondhandHouse.setFwtybh(hzSecondhandHouseDTO.getFwtybh());
+                        hzSecondhandHouse.setFczsh(hzSecondhandHouseDTO.getFczsh());
+                        hzSecondhandHouse.setCqmc(hzSecondhandHouseDTO.getCqmc());
+                        hzSecondhandHouse.setCreateTime(date);
+                        hzSecondhandHouse.setGpfyid(hzSecondhandHouseDTO.getGpfyid());
                     }
-                    hzSecondhandHouse.setGpfyid(hzSecondhandHouseDTO.getGpfyid());// 修改历史数据，之后可去掉
-                }else{
-                    hzSecondhandHouse = new HZSecondhandHouse();
-                    hzSecondhandHouse.setGisy(hzSecondhandHouseDTO.getGisy());
-                    hzSecondhandHouse.setGisx(hzSecondhandHouseDTO.getGisx());
-                    hzSecondhandHouse.setXqid(hzSecondhandHouseDTO.getXqid());
-                    hzSecondhandHouse.setXqmc(hzSecondhandHouseDTO.getXqmc());
-                    hzSecondhandHouse.setJzmj(hzSecondhandHouseDTO.getJzmj());
-                    hzSecondhandHouse.setFwtybh(hzSecondhandHouseDTO.getFwtybh());
-                    hzSecondhandHouse.setFczsh(hzSecondhandHouseDTO.getFczsh());
-                    hzSecondhandHouse.setCqmc(hzSecondhandHouseDTO.getCqmc());
-                    hzSecondhandHouse.setCreateTime(date);
-                    hzSecondhandHouse.setGpfyid(hzSecondhandHouseDTO.getGpfyid());
+                    hzSecondhandHouse.setUpdateTime(date);
+                    hzSecondhandHouse = hzSecondhandHouseService.save(hzSecondhandHouse);
+                    // 更新挂牌信息
+                    getGpInfos(hzSecondhandHouseDTO, hzSecondhandHouse.getGpInfos());
+                    sets.add(hzSecondhandHouseDTO.getFwtybh());
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                hzSecondhandHouse.setUpdateTime(date);
-                hzSecondhandHouse = hzSecondhandHouseService.save(hzSecondhandHouse);
-                List<GPInfo> gpInfos = getGpInfos(hzSecondhandHouseDTO, hzSecondhandHouse.getGpInfos());
-                sets.add(hzSecondhandHouseDTO.getFwtybh());
             }
             System.out.println(sets.size());
         }
@@ -81,7 +87,7 @@ public class HZHouseTransactionPipeline implements Pipeline {
      * @param gpInfos
      * @return
      */
-    private List<GPInfo> getGpInfos(HZSecondhandHouseDTO hzSecondhandHouseDTO, List<GPInfo> gpInfos){
+    private void getGpInfos(HZSecondhandHouseDTO hzSecondhandHouseDTO, List<GPInfo> gpInfos){
         boolean add = true;
         if(gpInfos == null){
             gpInfos = new ArrayList<GPInfo>();
@@ -102,9 +108,7 @@ public class HZHouseTransactionPipeline implements Pipeline {
             gpInfo.setCreateTime(new Date());
             gpInfo.setCjsj(hzSecondhandHouseDTO.getCjsj());
             gpInfo.setFwtybh(hzSecondhandHouseDTO.getFwtybh());
-            gpInfo = hzSecondhandHouseService.save(gpInfo);
-            gpInfos.add(gpInfo);
+            hzSecondhandHouseService.save(gpInfo);
         }
-        return gpInfos;
     }
 }

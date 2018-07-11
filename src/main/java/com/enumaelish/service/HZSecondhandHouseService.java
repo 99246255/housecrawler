@@ -5,11 +5,16 @@ import com.enumaelish.entity.GPInfo;
 import com.enumaelish.entity.HZSecondhandHouse;
 import com.enumaelish.repository.GpInfoRepository;
 import com.enumaelish.repository.HZSecondhandHouseRepository;
+import com.github.wenhao.jpa.Specifications;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import java.util.List;
 
 @Service
@@ -49,6 +54,17 @@ public class HZSecondhandHouseService {
         cqmc = getLikeQuery(cqmc);
         xqmc = getLikeQuery(xqmc);
         return hzSecondhandHouseRepository.findByxqmc(cqmc, xqmc, min, max, pageable);
+    }
+    public Page<HZSecondhandHouse> queryPage(String cqmc, String xqmc, double min, double max, PageRequest pageable){
+        Specification<HZSecondhandHouse> specification = Specifications.<HZSecondhandHouse>and()
+                .predicate( ((root, query, cb) -> {
+                    Join conditionList = root.join("gpInfos", JoinType.LEFT);
+                    return cb.between(conditionList.get("price"), min, max);
+                }))
+                .like(StringUtils.isNotBlank(cqmc), "cqmc", getLikeQuery(cqmc))
+                .like(StringUtils.isNotBlank(xqmc), "xqmc", getLikeQuery(xqmc))
+                .build();
+        return hzSecondhandHouseRepository.findAll(specification, pageable);
     }
 
     public String getLikeQuery(String s){

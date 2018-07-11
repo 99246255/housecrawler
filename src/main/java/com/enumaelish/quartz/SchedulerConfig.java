@@ -69,13 +69,13 @@ public class SchedulerConfig {
     }
 
     /**
-     * cron表达式，当前时间往后1分钟执行，每6小时执行一次
+     * cron表达式，当前时间往后1分钟执行，每12小时执行一次
      * @return
      */
     public static String getCronExpression(){
         StringBuffer stringBuffer = new StringBuffer();
         Calendar cal = Calendar.getInstance();
-        stringBuffer.append(cal.get(Calendar.SECOND)).append(BLANK).append(cal.get(Calendar.MINUTE)+1).append(BLANK).append(cal.get(Calendar.HOUR_OF_DAY)%6).append("/6 * * ?");
+        stringBuffer.append(cal.get(Calendar.SECOND)).append(BLANK).append(cal.get(Calendar.MINUTE)+1).append(BLANK).append(cal.get(Calendar.HOUR_OF_DAY)%12).append("/12 * * ?");
         return stringBuffer.toString();
     }
     public static void main(String[] args) {

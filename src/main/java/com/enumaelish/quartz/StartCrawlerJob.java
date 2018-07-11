@@ -25,4 +25,7 @@ public class StartCrawlerJob implements Job {
 		logger.info("爬取信息结束");
 	}
 
+	public static void main(String[] args) {
+		System.out.println(-7%5);
+	}
 }

@@ -9,7 +9,6 @@ import us.codecraft.webmagic.model.HttpRequestBody;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.utils.HttpConstant;
 
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -18,7 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class HZHouseTransactionProcessor implements PageProcessor {
 
-    private static final AtomicInteger pageSize = new AtomicInteger(556);
+    private static AtomicInteger pageSize = new AtomicInteger(0);
     private Site site = Site.me()
             .setRetryTimes(5).setTimeOut(5000)
             .setSleepTime(1 * 1000);
@@ -35,10 +34,7 @@ public class HZHouseTransactionProcessor implements PageProcessor {
         Gson gs = new Gson();
         JsonObject jsonData = gs.fromJson(rawText, JsonObject.class);
         page.putField("house", jsonData.get("list").toString());
-        if(jsonData.get("pageinfo").toString().contains("下一页")) {
-            page.addTargetRequest(getRequest(pageSize.incrementAndGet()));
-            System.out.println(pageSize);
-        }
+        page.addTargetRequest(getRequest(pageSize.incrementAndGet()));
     }
 
     public static Request getRequest(int i){
@@ -52,12 +48,8 @@ public class HZHouseTransactionProcessor implements PageProcessor {
         stringIntegerHashMap.put("wtcsjg", "");
         stringIntegerHashMap.put("fwyt", "");
         stringIntegerHashMap.put("xqid", "");
-        try {
-            request.setRequestBody(HttpRequestBody.form(stringIntegerHashMap, "utf-8"));
-            request.setMethod(HttpConstant.Method.POST);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        request.setRequestBody(HttpRequestBody.form(stringIntegerHashMap, "utf-8"));
+        request.setMethod(HttpConstant.Method.POST);
         return request;
     }
     public Site getSite() {

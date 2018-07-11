@@ -26,8 +26,8 @@ public class DemoApplicationTests {
 		hzSecondhandHouse.setCqmc("cqmc");
 		hzSecondhandHouse.setFczsh("fczsh");
 		hzSecondhandHouse.setFwtybh("fwtybh");
-		hzSecondhandHouse.setGisx(9.44);
-		hzSecondhandHouse.setGisy(32.3);
+//		hzSecondhandHouse.setGisx(9.44);
+//		hzSecondhandHouse.setGisy(32.3);
 		hzSecondhandHouse.setJzmj(223.22);
 		hzSecondhandHouse.setXqmc("xqmc");
 		hzSecondhandHouse.setXqid(323);
