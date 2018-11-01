@@ -1,5 +1,6 @@
 package com.enumaelish;
 
+import com.enumaelish.config.ApplicationReadyListener;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -9,6 +10,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 public class HousecrawlerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HousecrawlerApplication.class, args);
+		SpringApplication springApplication = new SpringApplication(HousecrawlerApplication.class);
+		springApplication.addListeners(new ApplicationReadyListener());
+		springApplication.run(args);
 	}
 }

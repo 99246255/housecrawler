@@ -32,5 +32,7 @@ public interface HZSecondhandHouseRepository extends PagingAndSortingRepository<
 
     Page<HZSecondhandHouse> findAll(Specification<HZSecondhandHouse> var1, Pageable pageable);
 
+    @Query("select h.fwtybh from HZSecondhandHouse h ")
+    List<String> findAllIds();
 }
 

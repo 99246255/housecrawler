@@ -19,8 +19,8 @@ public class HZHouseTransactionProcessor implements PageProcessor {
 
     private static AtomicInteger pageSize = new AtomicInteger(0);
     private Site site = Site.me()
-            .setRetryTimes(5).setTimeOut(5000)
-            .setSleepTime(1 * 1000);
+            .setRetryTimes(Integer.MAX_VALUE).setTimeOut(10000)
+            .setSleepTime(100);
 
 
     public HZHouseTransactionProcessor() {
@@ -47,7 +47,12 @@ public class HZHouseTransactionProcessor implements PageProcessor {
         stringIntegerHashMap.put("ordertype", "");
         stringIntegerHashMap.put("wtcsjg", "");
         stringIntegerHashMap.put("fwyt", "");
-        stringIntegerHashMap.put("xqid", "");
+        stringIntegerHashMap.put("xqid", "0");
+        stringIntegerHashMap.put("signid", "ff80808166484c980166486b4e0b0023");
+        stringIntegerHashMap.put("threshold", "ff80808166484c980166486b4e0b0021");
+        stringIntegerHashMap.put("salt", "ff80808166484c980166486b4e0b0022");
+        stringIntegerHashMap.put("nonce", "0");
+        stringIntegerHashMap.put("hash", "0448c9b2298cc81d7e0b7a2ab77fcd9261f956537b0939664985b08a1bc4ce20");
         request.setRequestBody(HttpRequestBody.form(stringIntegerHashMap, "utf-8"));
         request.setMethod(HttpConstant.Method.POST);
         return request;
